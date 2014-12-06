@@ -1,0 +1,16 @@
+{
+  "maxerr": 25,
+  "latedef": "nofunc",
+  "browser": false,
+  "node": true,
+  "indent": 2,
+  "camelcase": true,
+  "newcap": true,
+  "undef": true,
+  "esnext": true,
+  "multistr": true,
+  "noyield": true,
+  "loopfunc": true,
+  "-W004": true,
+  "-W030": true
+}
