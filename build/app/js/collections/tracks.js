@@ -1,0 +1,2 @@
+/*! Created at 07-12-2014 */
+define(["jquery","underscore","backbone","models/track","settings"],function(a,b,c,d,e){var f=c.Collection.extend({initialize:function(){var a=this;this.on("play:next",function(){var b=e.view.model,c=a.findIndex(b);c!==a.length-1&&(a.at(c).trigger("play"),a.at(c+1).trigger("play"))}),this.on("play:prev",function(){var b=e.view.model,c=a.findIndex(b);c&&(a.at(c).trigger("play"),a.at(c-1).trigger("play"))})},findIndex:function(a){var b;return this.some(function(c,d){return c.cid===a.cid?(b=d,!0):void 0}),b},model:d});return f});

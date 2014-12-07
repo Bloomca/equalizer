@@ -7,31 +7,19 @@ module.exports = function (grunt) {
       options: {
         banner: '/*! Created at <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
-      my_target: {
+      js: {
         files: [{
           expand: true,
           cwd: 'app/js',
           src: '**/*.js',
-          dest: 'build/js'
+          dest: 'build/app/js'
         }]
       }
     },
     copy: {
       main: {
-        src: 'app/*',
+        src: 'app/**/*',
         dest: 'build/'
-      },
-      backbone: {
-        src: 'bower_components/backbone/backbone.js',
-        dest: 'app/vendor/backbone.js'
-      },
-      jquery: {
-        src: 'bower_components/jquery/dist/jquery.min.js',
-        dest: 'app/vendor/jquery.min.js'
-      },
-      underscore: {
-        src: 'bower_components/underscore/underscore-min.js',
-        dest: 'app/vendor/underscore-min.js'
       }
     }
   });

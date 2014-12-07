@@ -1,0 +1,2 @@
+/*! Created at 07-12-2014 */
+define(["jquery","underscore","backbone","soundcloud","views/appView","collections/tracks","views/tracksView","models/equalizer","views/equalizerView","settings","views/controlsView","views/spectrogramView"],function(a,b,c,d,e,f,g,h,i,j,k,l){a(function(){d.initialize({client_id:"129995c68429621b69af9121acc1c116"});{var a=new f,b=(new e({collection:a}),new g({collection:a}),new h({filters:j.filterValues}));new i({model:b}),new k({collection:a}),new l({})}})});
