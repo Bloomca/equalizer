@@ -13,6 +13,9 @@ const getDefaultState = () => ({
 
 export function playDriver(res$) {
   const result = {};
+  let intervalId;
+  let startingMoment;
+  let lastTime = 0;
   res$.addListener({
     next: ({ type, track, value }) => {
       switch (type) {
@@ -39,7 +42,7 @@ export function playDriver(res$) {
     },
     updateStatus(newStatus) {
       if (this.listener) {
-        console.log('updating status...', newStatus, status);
+        // console.log('updating status...', newStatus, status);
         const updatedStatus = Object.assign({}, status, newStatus);
         status = updatedStatus;
         this.listener.next(updatedStatus);
@@ -50,7 +53,7 @@ export function playDriver(res$) {
   const stream$ = xs.create(statusProvider).startWith(getDefaultState());
   stream$.addListener({
     next: params => {
-      console.log(params);
+      // console.log(params);
     },
     error: _ => _,
     complete: _ => _
@@ -67,29 +70,60 @@ export function playDriver(res$) {
   result.play = (track) => {
     const newStatus = { track };
 
+    const playParams = { track, start: result.startPlaying, pause: result.pausePlaying, updateDuration: result.updateDuration };
     if (!status.track) {
-      const { volume, analyser } = startPlay(track);
+      lastTime = 0;
+      const { volume, analyser, playPromise } = startPlay(playParams);
       newStatus.playing = true;
       newStatus.paused = false;
       newStatus.volume = volume;
       newStatus.analyser = analyser;
+      newStatus.time = 0;
+      newStatus.duration = null;
+      playPromise.then(result.startPlaying);
     } else if (status.track.id !== track.id) {
-      const { volume, analyser } = changeTrack(track);
+      lastTime = 0;
+      const { volume, analyser, playPromise } = changeTrack(playParams);
       newStatus.playing = true;
       newStatus.paused = false;
       newStatus.volume = volume;
       newStatus.analyser = analyser;
+      newStatus.time = 0;
+      newStatus.duration = null;
+      playPromise.then(result.startPlaying);
     } else if (status.playing && status.paused === false) {
       pause();
       newStatus.playing = true;
       newStatus.paused = true;
+      result.pausePlaying();
     } else if (status.playing && status.paused === true) {
-      unpause();
+      const { playPromise } = unpause();
       newStatus.playing = true;
       newStatus.paused = false;
+      playPromise.then(result.startPlaying);
     }
 
     statusProvider.updateStatus(newStatus);
+  };
+
+  result.updateDuration = (duration) => {
+    statusProvider.updateStatus({ duration });
+  };
+
+  result.startPlaying = () => {
+    clearInterval(intervalId);
+    startingMoment = Date.now();
+    intervalId = setInterval(() => {
+      const newTime = lastTime + Date.now() - startingMoment;
+      statusProvider.updateStatus({ time: newTime });
+    }, 100);
+  };
+
+  result.pausePlaying = () => {
+    clearInterval(intervalId);
+    const newTime = lastTime + Date.now() - startingMoment;
+    lastTime = newTime;
+    statusProvider.updateStatus({ time: newTime });
   };
 
   return result;

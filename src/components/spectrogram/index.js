@@ -35,7 +35,6 @@ export default function Spectrogram(sources) {
 
   const vtree$ = state$
     .map((state) => {
-      console.log(state);
       return canvas('.spectrogram', { attrs: { width: 1200, height: 500 } }, [
         'sorry, your browser doesn\'t support canvas'
       ]);

@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   // we have to require babel-polyfill first
@@ -25,10 +26,24 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel'
+      },
+      {
+        test:   /\.css$/,
+        loader: 'style-loader!css-loader!postcss-loader'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
+  ],
+  postcss: [
+    autoprefixer,
+    require('postcss-modules')({
+      generateScopedName: '[name]__[local]___[hash:base64:5]',
+    })
   ]
 };

@@ -1,0 +1,11 @@
+.container {
+  cursor: pointer;
+  transition: color 0.1s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container:hover, .container.active {
+  color: #2196F3;
+}

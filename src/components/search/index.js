@@ -1,4 +1,6 @@
 import {div, label, input, hr, h1, form, button} from '@cycle/dom';
+import './style.css';
+import styles from './style.css.json';
 
 export default function Search(sources) {
   const domSource = sources.DOM;
@@ -10,9 +12,10 @@ export default function Search(sources) {
   const vdom$ = state$
     .map(name =>
       div('.mui-row', [
-        form('.mui--text-center.mui-col-md-8.mui-col-md-offset-2', [
+        form(`.${styles.container}.mui--text-center.mui-col-md-8.mui-col-md-offset-2`, [
           div('.mui-textfield.mui--text-display2', [
-            input('.field.mui--text-headline', {attrs: { type: 'text', placeholder: 'Search songs' }}),
+            input(`.${styles.input}.field.mui--text-headline`,
+              { attrs: { type: 'text', placeholder: 'Search songs' }}),
           ])
         ])
       ])
