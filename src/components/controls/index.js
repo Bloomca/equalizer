@@ -19,7 +19,8 @@ export default function Controls(sources) {
       const volumeValue = state.volume.gain.value * 100;
 
       const res$ = xs.merge(
-        play$.map(x => state.track),
+        play$.mapTo(state.track),
+        pause$.mapTo(state.track),
         next$.map(x => tracks[currentIndex + 1]),
         prev$.map(x => tracks[currentIndex - 1])
       );
@@ -28,8 +29,8 @@ export default function Controls(sources) {
         return {
           DOM: xs.of(1)
             .map(_ =>
-              div([
-                'nothing is playing'
+              div('.mui--text-dark-hint', [
+                'Nothing is playing!'
               ])),
           play: res$
         };
@@ -37,25 +38,29 @@ export default function Controls(sources) {
 
       return {
         DOM: xs.of(volumeValue)
-          .map(value =>
-            div([
+          .map(value => {
+            const playButton = button('.play.mui-btn.mui-btn--accent', [
+              'PLAY'
+            ]);
+            const pauseButton = button('.pause.mui-btn.mui-btn--danger', [
+              'PAUSE'
+            ]);
+            return div('.mui--divider-bottom', [
               state.track.title,
               'is playing!!!',
-              button('.play', [
-                'PLAY!!!'
-              ]),
-              button('.pause', [
-                'PAUSE!!!!!'
-              ]),
-              button('.prev', [
-                'PREV'
-              ]),
-              button('.next', [
-                'NEXT'
-              ]),
-              input('.volume', { attrs: { type: 'range', min: 0, max: 100, value } }),
-              value
-            ])),
+              div([
+                button('.prev.mui-btn.mui-btn--primary', [
+                  'PREV'
+                ]),
+                state.paused ? playButton : pauseButton,
+                button('.next.mui-btn.mui-btn--primary', [
+                  'NEXT'
+                ]),
+                input('.volume', { attrs: { type: 'range', min: 0, max: 100, value } }),
+                value
+              ])
+            ])
+          }),
         play: xs.merge(
           res$.map(x => ({ type: 'play_track', track: x })),
           volume$.map(x => ({ type: 'volume', value: x }))

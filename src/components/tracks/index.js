@@ -1,7 +1,6 @@
 import xs from 'xstream';
 import {div, label, input, hr, h1, ul, li} from '@cycle/dom';
-import isolate from '@cycle/isolate';
-import Track from './track';
+import Track from '../track';
 
 export default function Tracks(sources) {
   const domSource = sources.DOM;
@@ -32,7 +31,6 @@ export default function Tracks(sources) {
       .flatten()
       .map((elements) => {
         return div([
-          div('tracks title'),
           ...elements
         ]);
       }),

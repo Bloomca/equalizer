@@ -1,21 +1,28 @@
 import xs from 'xstream';
 import {run} from '@cycle/xstream-run';
-import {div, label, input, hr, h1, makeDOMDriver} from '@cycle/dom';
+
+// drivers declaration
+import {div, label, input, hr, h1, h3, makeDOMDriver} from '@cycle/dom';
 import { makeCanvasDriver } from 'cycle-canvas';
 import { playDriver } from './drivers/play';
 import { tracksDriver } from './drivers/tracks';
+
+// components declaration
+import Header from './components/header';
+import Footer from './components/footer';
 import Search from './components/search';
 import Tracks from './components/tracks';
 import Controls from './components/controls';
 import Slider from './components/slider';
 import Spectrogram from './components/spectrogram';
-import { togglePlay } from './player/index';
 
 function main(sources) {
   const mouseMove$ = sources.DOM.select('.root').events('mousemove');
   const mouseUp$ = sources.DOM.select('.root').events('mouseup');
   const globalEvents = { mouseMove$, mouseUp$ };
 
+  const headerComponent = Header();
+  const footerComponent = Footer();
   const searchComponent = Search(sources);
   const tracks$ = sources.data.getTracks(searchComponent.value.map(x => ({ q: x })));
   const tracksComponent = Tracks({ DOM: sources.DOM, tracks: tracks$, player: sources.player });
@@ -25,17 +32,31 @@ function main(sources) {
   const spectrogramComponent = Spectrogram({ DOM: sources.DOM, state$: player$ });
 
   const sinks = {
-    DOM: xs.combine(searchComponent.value, searchComponent.DOM, tracksComponent.DOM, controlsComponent.DOM, sliderComponent.DOM, spectrogramComponent.DOM)
-      .map(([value, childVDom, tracksDOM, controlsDOM, sliderDOM, spectrogramDOM]) => {
+    DOM: xs.combine(
+      searchComponent.value,
+      searchComponent.DOM,
+      tracksComponent.DOM,
+      controlsComponent.DOM,
+      sliderComponent.DOM,
+      spectrogramComponent.DOM,
+      headerComponent.DOM,
+      footerComponent.DOM
+    ).map(([value, childVDom, tracksDOM, controlsDOM, sliderDOM, spectrogramDOM, headerDOM, footerDOM]) => {
+        const titleMarkup = value
+          ? h1('.mui--text-center', ['Results for: ' + value])
+          : h3('.mui--text-dark-secondary.mui--text-center', [
+            'Random songs'
+          ]);
         return div('.root', [
-          childVDom,
-          label('Name:'),
-          hr(),
-          h1('Results for: ' + value),
-          controlsDOM,
-          sliderDOM,
-          tracksDOM,
-          spectrogramDOM
+          headerDOM,
+          div('.mui-container', [
+            childVDom,
+            titleMarkup,
+            controlsDOM,
+            tracksDOM,
+            spectrogramDOM
+          ]),
+          footerDOM
         ])
       }),
     player: xs.merge(tracksComponent.play, controlsComponent.play),
