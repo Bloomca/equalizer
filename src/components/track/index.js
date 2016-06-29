@@ -1,5 +1,5 @@
 import xs from 'xstream';
-import {div, label, input, hr, h3, button, p} from '@cycle/dom';
+import {div, label, input, hr, h4, button, p} from '@cycle/dom';
 
 export default function Track(sources) {
   const streams$ = xs.of(sources.track)
@@ -8,8 +8,8 @@ export default function Track(sources) {
       const customClass = `track-${track.id}`;
       const clicks$ = sources.DOM.select(`.track.${customClass}`).events('click');
       return {
-        DOM: div(`.track.${customClass}`, [
-          h3([x.title])
+        DOM: div(`.track.${customClass}.mui--divider-bottom`, [
+          h4([x.title])
         ]),
         play: clicks$.mapTo(track)
       };
