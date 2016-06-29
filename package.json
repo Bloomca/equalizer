@@ -9,9 +9,23 @@
   "author": "Seva Zaikov",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
     "grunt": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-uglify": "latest",
-    "grunt-contrib-watch": "latest"
+    "grunt-contrib-watch": "latest",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "@cycle/collection": "^0.3.0",
+    "@cycle/dom": "^10.0.2",
+    "@cycle/isolate": "^1.4.0",
+    "@cycle/xstream-run": "^3.0.3",
+    "cycle-canvas": "^0.2.0",
+    "xstream": "^5.0.6"
   }
 }
