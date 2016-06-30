@@ -55,6 +55,7 @@ function createAudio({ track, updateDuration, onEnd }) {
   endedId = setInterval(() => {
     if (audio && audio.ended && onEnd) {
       onEnd();
+      clearInterval(endedId);
     }
   }, 500);
 

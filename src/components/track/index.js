@@ -19,7 +19,7 @@ export default function Track(sources) {
           formatDuration(x.duration / 1000)
         ]) : null;
       return {
-        DOM: div(`.track.${customClass}.mui--divider-bottom.${styles.container}`, [
+        DOM: div(`.track.${customClass}.mui--divider-bottom.${styles.container}.${x.id === sources.active ? styles.active : ''}`, [
           h4(`.${styles.title}`, [x.title]),
           duration
         ]),
