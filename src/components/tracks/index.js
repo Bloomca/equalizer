@@ -20,7 +20,7 @@ export default function Tracks(sources) {
 
       return {
         DOM: xs.combine(...tracksDOM),
-        play: play$.map(x => ({ type: 'play_track', track: x }))
+        play: play$.map(x => ({ type: 'play_track', track: x, playlist: tracks }))
       };
     });
 

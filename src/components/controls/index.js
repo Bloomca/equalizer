@@ -14,6 +14,12 @@ export default function Controls(sources) {
   const prev$ = sources.DOM.select('.prev').events('click');
   const next$ = sources.DOM.select('.next').events('click');
 
+  const progressSelector = sources.DOM.select(`.${styles.progressContainer}`);
+  const progressClicks$ = progressSelector.events('click');
+  const progressEl$ = progressSelector.elements();
+
+  const seek$ = progressClicks$;
+
   const vdom$ = xs.combine(sources.player$, sources.tracks$)
     .map(([state, tracks]) => {
       const currentIndex = state.track
@@ -98,13 +104,15 @@ export default function Controls(sources) {
                 ])
               ]),
               div(`.${styles.progressContainer}`, [
+                div(`.${styles.progressGray}`),
                 div(`.${styles.progress}`, { style: { width: `${progress * 100}%` } })
               ])
             ])
           }),
         play: xs.merge(
           res$.map(x => ({ type: 'play_track', track: x })),
-          volume$.map(x => ({ type: 'volume', value: x }))
+          volume$.map(x => ({ type: 'volume', value: x })),
+          seek$.map(x => ({ type: 'seek', value: x }))
         )
       };
     })
