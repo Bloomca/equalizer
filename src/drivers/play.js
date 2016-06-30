@@ -54,7 +54,7 @@ export function playDriver(res$) {
           break;
       }
     },
-    error: _ => _,
+    error: error => console.log(error),
     complete: _ => _
   });
   Object.assign(statusProvider, {
@@ -146,7 +146,11 @@ export function playDriver(res$) {
       newStatus.time = 0;
       newStatus.duration = null;
       newStatus.filters = filters;
-      playPromise.then(result.startPlaying);
+      if (playPromise && playPromise.then) {
+        playPromise.then(result.startPlaying);
+      } else {
+        result.startPlaying();
+      }
     } else if (track && status.track.id !== track.id) {
       lastTime = 0;
       const { volume, analyser, playPromise, filters } = changeTrack(playParams);
@@ -157,7 +161,11 @@ export function playDriver(res$) {
       newStatus.time = 0;
       newStatus.duration = null;
       newStatus.filters = filters;
-      playPromise.then(result.startPlaying);
+      if (playPromise && playPromise.then) {
+        playPromise.then(result.startPlaying);
+      } else {
+        result.startPlaying();
+      }
     } else if (status.playing && status.paused === false) {
       pause();
       newStatus.playing = true;
@@ -167,7 +175,11 @@ export function playDriver(res$) {
       const { playPromise } = unpause();
       newStatus.playing = true;
       newStatus.paused = false;
-      playPromise.then(result.startPlaying);
+      if (playPromise && playPromise.then) {
+        playPromise.then(result.startPlaying);
+      } else {
+        result.startPlaying();
+      }
     }
 
     statusProvider.updateStatus(newStatus);
