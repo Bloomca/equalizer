@@ -12,7 +12,7 @@ export default function Footer() {
       footer(`.${styles.container}`, [
         div(`.mui-container.mui--text-center`, [
           'Made by ',
-          a({ attrs: { href: 'https://github.com/Bloomca' } }, [
+          a({ attrs: { href: 'https://github.com/Bloomca/equalizer' } }, [
             'Seva Zaikov'
           ]),
           ' using ',
