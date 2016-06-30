@@ -63,7 +63,7 @@ module.exports = ({ dev }) => {
     postcss: [
       autoprefixer,
       require('postcss-modules')({
-        generateScopedName: '[name]__[local]___[hash:base64:5]',
+        generateScopedName: '[name]__[local]___[hash:base64:4]',
       })
     ]
   }

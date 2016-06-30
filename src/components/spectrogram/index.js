@@ -38,14 +38,6 @@ export default function Spectrogram(sources) {
     complete: _ => _
   });
 
-  sources.container$.addListener({
-    next: x => {
-      console.log(x);
-    },
-    error: _ => _,
-    complete: _ => _
-  })
-
   const vtree$ = xs.of(1)
     .map(() => {
       return canvas(`.${styles.spectrogram}`, { attrs: { width: '800', height: '400' } }, [

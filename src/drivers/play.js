@@ -32,7 +32,6 @@ export function playDriver(res$) {
           result.play(track);
           break;
         case 'volume':
-          console.log('VOLUME');
           result.setVolume(value);
           break;
         case 'frequency':
@@ -94,7 +93,6 @@ export function playDriver(res$) {
   };
 
   result.setFilterGain = ({ value, frequency }) => {
-    console.log(frequency, value);
     const isUpdated = status.filters.some(filter => {
       if (filter.frequency.value === frequency) {
         filter.gain.value = Number(value);

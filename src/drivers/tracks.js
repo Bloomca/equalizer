@@ -19,9 +19,6 @@ export function tracksDriver() {
 
       params$.addListener({
         next: params => {
-          console.group('tracks driver');
-          console.log('!!!!!!!!!!!', params);
-          console.groupEnd();
           SC.get('/tracks', { q: params.q, license: 'cc-by-sa' }, (tracks) => tracksProducer.updateTracks(tracks));
         },
         error: _ => _,
