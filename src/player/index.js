@@ -92,6 +92,8 @@ function createAudio({ track, updateDuration }) {
 
   analyser.connect(audioContext.destination);
 
+  window.aaa = audio;
+
   return { volume, analyser };
 }
 
@@ -118,4 +120,10 @@ export function changeTrack(playParams) {
   const playPromise = audio.pause();
   audio = null;
   return startPlay(playParams);
+}
+
+export function seek(value) {
+  if (audio) {
+    audio.currentTime = value;
+  }
 }

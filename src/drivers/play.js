@@ -1,5 +1,5 @@
 import xs from 'xstream';
-import { startPlay, pause, unpause, changeTrack } from '../player/index';
+import { startPlay, pause, unpause, changeTrack, seek } from '../player/index';
 
 const getDefaultState = () => ({
   track: null,
@@ -16,6 +16,8 @@ export function playDriver(res$) {
   let intervalId;
   let startingMoment;
   let lastTime = 0;
+  let status = getDefaultState();
+  const statusProvider = {};
   res$.addListener({
     next: ({ type, track, value }) => {
       switch (type) {
@@ -25,6 +27,19 @@ export function playDriver(res$) {
         case 'volume':
           result.setVolume(value);
           break;
+        case 'seek':
+          const { clientX, currentTarget } = value;
+          const { left, width } = currentTarget.getBoundingClientRect();
+          const seekPercentage = (clientX - left) / width;
+          const seekValue = seekPercentage * status.duration;
+
+          seek(seekValue);
+          statusProvider.updateStatus({
+            time: seekValue * 1000
+          });
+          startingMoment = Date.now();
+          lastTime = seekValue * 1000;
+          break;
         default:
           break;
       }
@@ -32,8 +47,7 @@ export function playDriver(res$) {
     error: _ => _,
     complete: _ => _
   });
-  let status = getDefaultState();
-  const statusProvider = {
+  Object.assign(statusProvider, {
     start(listener) {
       this.listener = listener;
     },
@@ -48,7 +62,7 @@ export function playDriver(res$) {
         this.listener.next(updatedStatus);
       }
     }
-  };
+  });
 
   const stream$ = xs.create(statusProvider).startWith(getDefaultState());
   stream$.addListener({
