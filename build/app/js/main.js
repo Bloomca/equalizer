@@ -1,2 +1,0 @@
-/*! Created at 07-12-2014 */
-require.config({paths:{jquery:"../vendor/jquery.min",backbone:"../vendor/backbone",underscore:"../vendor/underscore-min",soundcloud:"../vendor/soundcloud",jqueryui:"../vendor/jquery-ui.min"}}),require(["app"]);

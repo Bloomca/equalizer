@@ -1,2 +1,0 @@
-/*! Created at 07-12-2014 */
-define(["jquery","underscore","backbone","views/trackView"],function(a,b,c,d){var e=c.View.extend({el:"#list",initialize:function(){this.listenTo(this.collection,"reset",this.render)},render:function(){return console.log(this.collection.length),this.$el.empty(),this.collection.each(function(a){this.addOne(a)}.bind(this)),this},addOne:function(a){var b=new d({model:a});this.$el.append(b.render().$el)}});return e});

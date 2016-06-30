@@ -1,2 +1,0 @@
-/*! Created at 07-12-2014 */
-define(["jquery","underscore","backbone"],function(a,b,c){function d(){return"undefined"!=typeof AudioContext?new AudioContext:new webkitAudioContext}var e=b.extend({qValues:[],filters:[],filterValues:[500,2500,4500,6500,8500,11e3,14e3,17e3]},c.Events);return e.audioContext=d(),e.volume=e.audioContext.createGain(),e.filterValues.forEach(function(a,b,c){e.qValues.push(b&&b!==c.length-1?2*a/Math.abs(c[b+1]-c[b-1]):null)}),e});
