@@ -103,7 +103,7 @@ function createAudio({ track, updateDuration, onEnd }) {
 
   window.aaa = audio;
 
-  return { volume, analyser };
+  return { volume, analyser, filters };
 }
 
 export function startPlay(playParams) {

@@ -1,8 +1,13 @@
+// cycle declaration
 import xs from 'xstream';
 import { canvas } from '@cycle/dom';
 
+// style declaration
+import styles from './style.css.json';
+import './style.css';
+
 export default function Spectrogram(sources) {
-  const canvas$ = sources.DOM.select('.spectrogram').elements();
+  const canvas$ = sources.DOM.select(`.${styles.spectrogram}`).elements();
   const state$ = sources.state$;
 
   xs.combine(canvas$, state$, xs.periodic(16)).addListener({
@@ -31,11 +36,19 @@ export default function Spectrogram(sources) {
     },
     error: _ => _,
     complete: _ => _
+  });
+
+  sources.container$.addListener({
+    next: x => {
+      console.log(x);
+    },
+    error: _ => _,
+    complete: _ => _
   })
 
-  const vtree$ = state$
-    .map((state) => {
-      return canvas('.spectrogram', { attrs: { width: 1200, height: 500 } }, [
+  const vtree$ = xs.of(1)
+    .map(() => {
+      return canvas(`.${styles.spectrogram}`, { attrs: { width: '800', height: '400' } }, [
         'sorry, your browser doesn\'t support canvas'
       ]);
     });

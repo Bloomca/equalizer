@@ -1,3 +1,4 @@
+// cycle declaration
 import xs from 'xstream';
 import {div, button, input, h3, img, p, a} from '@cycle/dom';
 

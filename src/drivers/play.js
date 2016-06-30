@@ -9,7 +9,8 @@ const getDefaultState = () => ({
   time: 0,
   volume: { gain: { value: 1 } },
   analyser: null,
-  playlist: null
+  playlist: null,
+  filters: null
 });
 
 export function playDriver(res$) {
@@ -20,7 +21,7 @@ export function playDriver(res$) {
   let status = getDefaultState();
   const statusProvider = {};
   res$.addListener({
-    next: ({ type, track, value, playlist: newPlaylist }) => {
+    next: ({ type, track, value, playlist: newPlaylist, frequency }) => {
       switch (type) {
         case 'play_track':
           if (newPlaylist) {
@@ -31,7 +32,11 @@ export function playDriver(res$) {
           result.play(track);
           break;
         case 'volume':
+          console.log('VOLUME');
           result.setVolume(value);
+          break;
+        case 'frequency':
+          result.setFilterGain({ value, frequency });
           break;
         case 'seek':
           const { clientX, currentTarget } = value;
@@ -85,7 +90,20 @@ export function playDriver(res$) {
   };
   result.setVolume = (value) => {
     status.volume.gain.value = value / 100;
-    statusProvider.updateStatus();
+
+  };
+
+  result.setFilterGain = ({ value, frequency }) => {
+    console.log(frequency, value);
+    const isUpdated = status.filters.some(filter => {
+      if (filter.frequency.value === frequency) {
+        filter.gain.value = Number(value);
+        return true;
+      }
+    });
+    if (isUpdated) {
+      statusProvider.updateStatus();
+    }
   };
 
   result.playNext = () => {
@@ -122,23 +140,25 @@ export function playDriver(res$) {
     };
     if (!status.track && track && track.id) {
       lastTime = 0;
-      const { volume, analyser, playPromise } = startPlay(playParams);
+      const { volume, analyser, playPromise, filters } = startPlay(playParams);
       newStatus.playing = true;
       newStatus.paused = false;
       newStatus.volume = volume;
       newStatus.analyser = analyser;
       newStatus.time = 0;
       newStatus.duration = null;
+      newStatus.filters = filters;
       playPromise.then(result.startPlaying);
     } else if (track && status.track.id !== track.id) {
       lastTime = 0;
-      const { volume, analyser, playPromise } = changeTrack(playParams);
+      const { volume, analyser, playPromise, filters } = changeTrack(playParams);
       newStatus.playing = true;
       newStatus.paused = false;
       newStatus.volume = volume;
       newStatus.analyser = analyser;
       newStatus.time = 0;
       newStatus.duration = null;
+      newStatus.filters = filters;
       playPromise.then(result.startPlaying);
     } else if (status.playing && status.paused === false) {
       pause();
@@ -165,7 +185,7 @@ export function playDriver(res$) {
     intervalId = setInterval(() => {
       const newTime = lastTime + Date.now() - startingMoment;
       statusProvider.updateStatus({ time: newTime });
-    }, 100);
+    }, 300);
   };
 
   result.pausePlaying = () => {
