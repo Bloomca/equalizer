@@ -1,5 +1,5 @@
 import xs from 'xstream';
-import {div, button, input, h3, img, p} from '@cycle/dom';
+import {div, button, input, h3, img, p, a} from '@cycle/dom';
 
 // utils declaration
 import { formatDuration } from '../../utils/dates';
@@ -20,8 +20,9 @@ export default function Controls(sources) {
 
   const seek$ = progressClicks$;
 
-  const vdom$ = xs.combine(sources.player$, sources.tracks$)
-    .map(([state, tracks]) => {
+  const vdom$ = sources.player$
+    .map((state) => {
+      const tracks = state.playlist || [];
       const currentIndex = state.track
         ? tracks.findIndex(x => x.id === state.track.id) : -2;
 
@@ -52,12 +53,18 @@ export default function Controls(sources) {
       return {
         DOM: xs.of(volumeValue)
           .map(value => {
-            const playButton = button('.play.mui-btn.mui-btn--accent', [
+            const playButton = button('.play.mui-btn.mui-btn--danger', [
               'PLAY'
             ]);
             const pauseButton = button('.pause.mui-btn.mui-btn--danger', [
               'PAUSE'
             ]);
+            const nextTrack = tracks[currentIndex + 1];
+            const nextTrackMarkup = nextTrack
+              ? div(`.mui--text-dark-hint`, [
+                'Next: ',
+                nextTrack.title
+              ]) : null;
             const durationMarkup = state.duration
               ? div(`.${styles.duration}`, [
                   formatDuration(state.time / 1000, state.duration),
@@ -79,9 +86,18 @@ export default function Controls(sources) {
                 div(`.${styles.infoContainer}`, [
                   h3(`.${styles.title}`, [
                     state.track.title,
+                    a(`.${styles.itemLink}`, { attrs: { target: '_blank', href: state.track.permalink_url } }, [
+                      'SoundCloud'
+                    ])
                   ]),
                   p(`.${styles.description}`, [
                     state.track.description
+                  ]),
+                  div(`.mui--text-dark-hint`, [
+                    'Uploaded by ',
+                    a(`.link`, { attrs: { target: '_blank', href: state.track.user.permalink_url} }, [
+                      state.track.user.username
+                    ])
                   ]),
                   durationMarkup
                 ]),
@@ -94,7 +110,8 @@ export default function Controls(sources) {
                   state.paused ? playButton : pauseButton,
                   button('.next.mui-btn.mui-btn--primary', [
                     'NEXT'
-                  ])
+                  ]),
+                  nextTrackMarkup
                 ]),
                 div(`.${styles.volumeContainer}`, [
                   div(`.${styles.volumeTitle}.mui--text-dark-hint`, [

@@ -5,11 +5,13 @@ import Track from '../track';
 export default function Tracks(sources) {
   const domSource = sources.DOM;
   const tracksSource = sources.tracks;
+  const playerSource = sources.player;
 
-  const streams$ = tracksSource
-    .map(tracks => {
+  const streams$ = xs.combine(tracksSource, playerSource)
+    .map(([tracks, player]) => {
+      const active = (player.track || {}).id;
       const tracksContent = tracks.map(track => {
-        const trackComponent = Track({ DOM: domSource, track });
+        const trackComponent = Track({ DOM: domSource, track, active });
         return { DOM: trackComponent.DOM, play: trackComponent.play };
       });
 

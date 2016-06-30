@@ -25,8 +25,8 @@ function main(sources) {
   const footerComponent = Footer();
   const searchComponent = Search(sources);
   const tracks$ = sources.data.getTracks(searchComponent.value.map(x => ({ q: x })));
-  const tracksComponent = Tracks({ DOM: sources.DOM, tracks: tracks$, player: sources.player });
   const player$ = sources.player.getState();
+  const tracksComponent = Tracks({ DOM: sources.DOM, tracks: tracks$, player: player$ });
   const controlsComponent = Controls({ DOM: sources.DOM, player$, tracks$, play: sources.player.play });
   const sliderComponent = Slider({ DOM: sources.DOM, globalEvents });
   const spectrogramComponent = Spectrogram({ DOM: sources.DOM, state$: player$ });

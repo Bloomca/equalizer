@@ -8,7 +8,8 @@ const getDefaultState = () => ({
   duration: null,
   time: 0,
   volume: { gain: { value: 1 } },
-  analyser: null
+  analyser: null,
+  playlist: null
 });
 
 export function playDriver(res$) {
@@ -17,14 +18,15 @@ export function playDriver(res$) {
   let startingMoment;
   let lastTime = 0;
   let status = getDefaultState();
-  let playlist;
   const statusProvider = {};
   res$.addListener({
     next: ({ type, track, value, playlist: newPlaylist }) => {
       switch (type) {
         case 'play_track':
           if (newPlaylist) {
-            playlist = newPlaylist;
+            statusProvider.updateStatus({
+              playlist: newPlaylist
+            });
           }
           result.play(track);
           break;
@@ -88,18 +90,23 @@ export function playDriver(res$) {
 
   result.playNext = () => {
     result.pausePlaying();
-    if (playlist) {
+    if (status.playlist) {
       const { id: currentId } = status.track || {};
 
       const currentIndex = currentId
-        ? playlist.findIndex(({ id }) => currentId === id)
+        ? status.playlist.findIndex(({ id }) => currentId === id)
         : -1;
 
       const nextIndex = currentIndex + 1;
-      const nextTrack = playlist[nextIndex];
+      const nextTrack = status.playlist[nextIndex];
 
       if (nextTrack) {
         result.play(nextTrack);
+      } else {
+        statusProvider.updateStatus({
+          playing: false,
+          track: null
+        });
       }
     }
   };

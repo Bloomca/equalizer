@@ -17,8 +17,9 @@
 
 .background {
   position: absolute;
-  width: 100%;
+  width: calc(100% - 150px);
   height: 150px;
+  left: 150px;
   background-size: cover;
   z-index: 0;
 }
@@ -39,6 +40,11 @@
 .title {
   margin-top: 10px;
   font-size: 26px;
+}
+
+.itemLink {
+  font-size: 12px;
+  margin-left: 30px;
 }
 
 .description {
