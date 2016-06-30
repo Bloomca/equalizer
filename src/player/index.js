@@ -44,22 +44,24 @@ let audioContext = getAudioContext();
 let volume = audioContext.createGain();
 let analyser;
 
-function createAudio(track) {
+function createAudio({ track, updateDuration }) {
   audio = document.createElement('audio');
   audio.crossOrigin = "anonymous";
   // from here -- http://stackoverflow.com/questions/31308679/mediaelementaudiosource-outputs-zeros-due-to-cors-access-restrictions-local-mp3
   audio.src = track.stream_url + '?client_id=129995c68429621b69af9121acc1c116';
 
-  sendDuration();
+  if (updateDuration) {
+    sendDuration();
+  }
 
   function sendDuration () {
     if (audio && audio.duration) {
-      duration = audio.duration;
+      updateDuration(audio.duration);
     } else {
       if (audio) {
         setTimeout(function () {
           sendDuration();
-        }, 1000);
+        }, 10);
       }
     }
   }
@@ -93,23 +95,27 @@ function createAudio(track) {
   return { volume, analyser };
 }
 
-export function startPlay(track) {
-  const params = createAudio(track);
-  audio.play();
+export function startPlay(playParams) {
+  const params = createAudio(playParams);
+  const playPromise = audio.play();
 
-  return params;
+  return { ...params, playPromise };
 }
 
 export function pause() {
-  audio.pause();
+  const playPromise = audio.pause();
+
+  return { playPromise };
 }
 
 export function unpause() {
-  audio.play();
+  const playPromise = audio.play();
+
+  return { playPromise };
 }
 
-export function changeTrack(track) {
-  audio.pause();
+export function changeTrack(playParams) {
+  const playPromise = audio.pause();
   audio = null;
-  return startPlay(track);
+  return startPlay(playParams);
 }

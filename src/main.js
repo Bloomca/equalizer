@@ -50,9 +50,9 @@ function main(sources) {
         return div('.root', [
           headerDOM,
           div('.mui-container', [
+            controlsDOM,
             childVDom,
             titleMarkup,
-            controlsDOM,
             tracksDOM,
             spectrogramDOM
           ]),

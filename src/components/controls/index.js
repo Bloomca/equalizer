@@ -1,5 +1,12 @@
 import xs from 'xstream';
-import {div, button, input} from '@cycle/dom';
+import {div, button, input, h3, img, p} from '@cycle/dom';
+
+// utils declaration
+import { formatDuration } from '../../utils/dates';
+
+// style declaration
+import styles from './style.css.json';
+import './style.css';
 
 export default function Controls(sources) {
   const play$ = sources.DOM.select('.play').events('click');
@@ -12,7 +19,7 @@ export default function Controls(sources) {
       const currentIndex = state.track
         ? tracks.findIndex(x => x.id === state.track.id) : -2;
 
-      const volume$ = sources.DOM.select('.volume')
+      const volume$ = sources.DOM.select(`.${styles.volume}`)
         .events('input')
         .map(ev => ev.target.value);
 
@@ -29,7 +36,7 @@ export default function Controls(sources) {
         return {
           DOM: xs.of(1)
             .map(_ =>
-              div('.mui--text-dark-hint', [
+              div(`.mui--text-dark-hint.${styles.noContent}`, [
                 'Nothing is playing!'
               ])),
           play: res$
@@ -45,19 +52,53 @@ export default function Controls(sources) {
             const pauseButton = button('.pause.mui-btn.mui-btn--danger', [
               'PAUSE'
             ]);
-            return div('.mui--divider-bottom', [
-              state.track.title,
-              'is playing!!!',
-              div([
-                button('.prev.mui-btn.mui-btn--primary', [
-                  'PREV'
+            const durationMarkup = state.duration
+              ? div(`.${styles.duration}`, [
+                  formatDuration(state.time / 1000, state.duration),
+                  ' / ',
+                  formatDuration(state.duration)
+              ]) : null;
+
+            const progress = state.duration ? state.time / 1000 / state.duration : 0;
+            const imageURL = state.track.artwork_url || state.track.user.avatar_url;
+            const imgMarkup = imageURL
+              ? img(`.${styles.logo}`, { attrs: { src: imageURL } })
+              : null;
+            return div(`.${styles.container}.mui--divider-bottom`, [
+              div(`.${styles.background}`, { style: { backgroundImage: `url(${state.track.waveform_url})`} }),
+              div(`.${styles.firstRow}`, [
+                div(`.${styles.logoContainer}`, [
+                  imgMarkup
                 ]),
-                state.paused ? playButton : pauseButton,
-                button('.next.mui-btn.mui-btn--primary', [
-                  'NEXT'
+                div(`.${styles.infoContainer}`, [
+                  h3(`.${styles.title}`, [
+                    state.track.title,
+                  ]),
+                  p(`.${styles.description}`, [
+                    state.track.description
+                  ]),
+                  durationMarkup
                 ]),
-                input('.volume', { attrs: { type: 'range', min: 0, max: 100, value } }),
-                value
+              ]),
+              div(`.${styles.buttonsContainer}`, [
+                div(`.${styles.buttons}`, [
+                  button('.prev.mui-btn.mui-btn--primary', [
+                    'PREV'
+                  ]),
+                  state.paused ? playButton : pauseButton,
+                  button('.next.mui-btn.mui-btn--primary', [
+                    'NEXT'
+                  ])
+                ]),
+                div(`.${styles.volumeContainer}`, [
+                  div(`.${styles.volumeTitle}.mui--text-dark-hint`, [
+                    'Volume: '
+                  ]),
+                  input(`.${styles.volume}`, { attrs: { type: 'range', min: 0, max: 100, value } })
+                ])
+              ]),
+              div(`.${styles.progressContainer}`, [
+                div(`.${styles.progress}`, { style: { width: `${progress * 100}%` } })
               ])
             ])
           }),
