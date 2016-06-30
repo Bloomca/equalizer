@@ -17,11 +17,15 @@ export function playDriver(res$) {
   let startingMoment;
   let lastTime = 0;
   let status = getDefaultState();
+  let playlist;
   const statusProvider = {};
   res$.addListener({
-    next: ({ type, track, value }) => {
+    next: ({ type, track, value, playlist: newPlaylist }) => {
       switch (type) {
         case 'play_track':
+          if (newPlaylist) {
+            playlist = newPlaylist;
+          }
           result.play(track);
           break;
         case 'volume':
@@ -81,11 +85,35 @@ export function playDriver(res$) {
     status.volume.gain.value = value / 100;
     statusProvider.updateStatus();
   };
+
+  result.playNext = () => {
+    result.pausePlaying();
+    if (playlist) {
+      const { id: currentId } = status.track || {};
+
+      const currentIndex = currentId
+        ? playlist.findIndex(({ id }) => currentId === id)
+        : -1;
+
+      const nextIndex = currentIndex + 1;
+      const nextTrack = playlist[nextIndex];
+
+      if (nextTrack) {
+        result.play(nextTrack);
+      }
+    }
+  };
   result.play = (track) => {
     const newStatus = { track };
 
-    const playParams = { track, start: result.startPlaying, pause: result.pausePlaying, updateDuration: result.updateDuration };
-    if (!status.track) {
+    const playParams = {
+      track,
+      start: result.startPlaying,
+      pause: result.pausePlaying,
+      updateDuration: result.updateDuration,
+      onEnd: result.playNext
+    };
+    if (!status.track && track && track.id) {
       lastTime = 0;
       const { volume, analyser, playPromise } = startPlay(playParams);
       newStatus.playing = true;
@@ -95,7 +123,7 @@ export function playDriver(res$) {
       newStatus.time = 0;
       newStatus.duration = null;
       playPromise.then(result.startPlaying);
-    } else if (status.track.id !== track.id) {
+    } else if (track && status.track.id !== track.id) {
       lastTime = 0;
       const { volume, analyser, playPromise } = changeTrack(playParams);
       newStatus.playing = true;

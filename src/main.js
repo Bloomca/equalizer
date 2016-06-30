@@ -59,7 +59,10 @@ function main(sources) {
           footerDOM
         ])
       }),
-    player: xs.merge(tracksComponent.play, controlsComponent.play),
+    player: xs.merge(
+      tracksComponent.play,
+      controlsComponent.play
+    ),
     Canvas: spectrogramComponent.canvas$
   };
   return sinks;

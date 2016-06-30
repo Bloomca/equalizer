@@ -4,6 +4,8 @@ let qValues = [];
 let filters = [];
 let filterValues = [500, 2500, 4500, 6500, 8500, 11000, 14000, 17000];
 
+let endedId;
+
 filterValues.forEach(function (freq, i, arr) {
   if (!i || (i === arr.length - 1)) {
     qValues.push(null);
@@ -44,11 +46,17 @@ let audioContext = getAudioContext();
 let volume = audioContext.createGain();
 let analyser;
 
-function createAudio({ track, updateDuration }) {
+function createAudio({ track, updateDuration, onEnd }) {
   audio = document.createElement('audio');
   audio.crossOrigin = "anonymous";
   // from here -- http://stackoverflow.com/questions/31308679/mediaelementaudiosource-outputs-zeros-due-to-cors-access-restrictions-local-mp3
   audio.src = track.stream_url + '?client_id=129995c68429621b69af9121acc1c116';
+
+  endedId = setInterval(() => {
+    if (audio && audio.ended && onEnd) {
+      onEnd();
+    }
+  }, 500);
 
   if (updateDuration) {
     sendDuration();
@@ -119,6 +127,7 @@ export function unpause() {
 export function changeTrack(playParams) {
   const playPromise = audio.pause();
   audio = null;
+  clearInterval(endedId);
   return startPlay(playParams);
 }
 
