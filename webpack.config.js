@@ -20,7 +20,7 @@ module.exports = ({ dev }) => {
   ];
 
   const buildPlugins = [
-    new ExtractTextPlugin('styles.css'),
+    new ExtractTextPlugin('styles/styles.css'),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
   ];
