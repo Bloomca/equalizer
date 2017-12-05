@@ -5,6 +5,7 @@
   "main": "build/index.html",
   "scripts": {
     "start": "node server.js",
+    "build": "node build.js",
     "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -37,12 +38,12 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "@cycle/collection": "^0.3.0",
-    "@cycle/dom": "^10.0.2",
-    "@cycle/isolate": "^1.4.0",
-    "@cycle/xstream-run": "^3.0.3",
+    "@cycle/collection": "^0.6.0",
+    "@cycle/dom": "^20.1.0",
+    "@cycle/isolate": "^3.2.0",
+    "@cycle/run": "^4.0.0",
     "cycle-canvas": "^0.2.0",
-    "xstream": "^5.0.6"
+    "xstream": "^11.0.0"
   },
   "lint-staged": {
     "*.{js,json,css}": ["prettier --write", "git add"]
