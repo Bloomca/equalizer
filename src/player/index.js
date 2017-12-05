@@ -6,23 +6,23 @@ let filterValues = [500, 2500, 4500, 6500, 8500, 11000, 14000, 17000];
 
 let endedId;
 
-filterValues.forEach(function (freq, i, arr) {
-  if (!i || (i === arr.length - 1)) {
+filterValues.forEach(function(freq, i, arr) {
+  if (!i || i === arr.length - 1) {
     qValues.push(null);
   } else {
     qValues.push(2 * freq / Math.abs(arr[i + 1] - arr[i - 1]));
   }
 });
 
-function createFilterNodes (oldGainFrom, lastInChainFrom) {
+function createFilterNodes(oldGainFrom, lastInChainFrom) {
   var lastInChain = lastInChainFrom,
-      oldGain = oldGainFrom || [];
-  filterValues.forEach(function (freq, i, arr) {
+    oldGain = oldGainFrom || [];
+  filterValues.forEach(function(freq, i, arr) {
     var biquadFilter = audioContext.createBiquadFilter();
-    biquadFilter.type = 'peaking';
+    biquadFilter.type = "peaking";
     biquadFilter.frequency.value = freq;
     biquadFilter.gain.value = oldGain[i] || 0;
-    if (!i || (i === arr.length - 1)) {
+    if (!i || i === arr.length - 1) {
       biquadFilter.type = i ? "highshelf" : "lowshelf";
     } else {
       biquadFilter.Q.value = qValues[i];
@@ -38,8 +38,10 @@ function createFilterNodes (oldGainFrom, lastInChainFrom) {
   return lastInChain;
 }
 
-function getAudioContext () {
-  return (typeof AudioContext !== 'undefined') ? new AudioContext() : new webkitAudioContext();
+function getAudioContext() {
+  return typeof AudioContext !== "undefined"
+    ? new AudioContext()
+    : new webkitAudioContext();
 }
 
 let audioContext = getAudioContext();
@@ -47,10 +49,10 @@ let volume = audioContext.createGain();
 let analyser;
 
 function createAudio({ track, updateDuration, onEnd }) {
-  audio = document.createElement('audio');
+  audio = document.createElement("audio");
   audio.crossOrigin = "anonymous";
   // from here -- http://stackoverflow.com/questions/31308679/mediaelementaudiosource-outputs-zeros-due-to-cors-access-restrictions-local-mp3
-  audio.src = track.stream_url + '?client_id=129995c68429621b69af9121acc1c116';
+  audio.src = track.stream_url + "?client_id=129995c68429621b69af9121acc1c116";
 
   endedId = setInterval(() => {
     if (audio && audio.ended && onEnd) {
@@ -63,12 +65,12 @@ function createAudio({ track, updateDuration, onEnd }) {
     sendDuration();
   }
 
-  function sendDuration () {
+  function sendDuration() {
     if (audio && audio.duration) {
       updateDuration(audio.duration);
     } else {
       if (audio) {
-        setTimeout(function () {
+        setTimeout(function() {
           sendDuration();
         }, 10);
       }

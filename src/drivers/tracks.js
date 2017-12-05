@@ -1,4 +1,4 @@
-import xs from 'xstream';
+import xs from "xstream";
 
 export function tracksDriver() {
   return {
@@ -19,7 +19,9 @@ export function tracksDriver() {
 
       params$.addListener({
         next: params => {
-          SC.get('/tracks', { q: params.q, license: 'cc-by-sa' }, (tracks) => tracksProducer.updateTracks(tracks));
+          SC.get("/tracks", { q: params.q, license: "cc-by-sa" }, tracks =>
+            tracksProducer.updateTracks(tracks)
+          );
         },
         error: _ => _,
         complete: _ => _

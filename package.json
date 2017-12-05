@@ -4,6 +4,7 @@
   "description": "simple player with equalizer",
   "main": "build/index.html",
   "scripts": {
+    "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Seva Zaikov",
@@ -16,14 +17,20 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-2": "^6.11.0",
     "css-loader": "^0.23.1",
+    "eslint": "^4.12.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.3.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "grunt": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
+    "husky": "^0.14.3",
     "json-loader": "^0.5.4",
+    "lint-staged": "^6.0.0",
     "postcss-loader": "^0.9.1",
     "postcss-modules": "^0.5.0",
+    "prettier": "1.9.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
@@ -35,5 +42,8 @@
     "@cycle/xstream-run": "^3.0.3",
     "cycle-canvas": "^0.2.0",
     "xstream": "^5.0.6"
+  },
+  "lint-staged": {
+    "*.{js,json,css}": ["prettier --write", "git add"]
   }
 }

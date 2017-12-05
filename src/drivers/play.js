@@ -1,5 +1,5 @@
-import xs from 'xstream';
-import { startPlay, pause, unpause, changeTrack, seek } from '../player/index';
+import xs from "xstream";
+import { startPlay, pause, unpause, changeTrack, seek } from "../player/index";
 
 const getDefaultState = () => ({
   track: null,
@@ -23,7 +23,7 @@ export function playDriver(res$) {
   res$.addListener({
     next: ({ type, track, value, playlist: newPlaylist, frequency }) => {
       switch (type) {
-        case 'play_track':
+        case "play_track":
           if (newPlaylist) {
             statusProvider.updateStatus({
               playlist: newPlaylist
@@ -31,13 +31,13 @@ export function playDriver(res$) {
           }
           result.play(track);
           break;
-        case 'volume':
+        case "volume":
           result.setVolume(value);
           break;
-        case 'frequency':
+        case "frequency":
           result.setFilterGain({ value, frequency });
           break;
-        case 'seek':
+        case "seek":
           const { clientX, currentTarget } = value;
           const { left, width } = currentTarget.getBoundingClientRect();
           const seekPercentage = (clientX - left) / width;
@@ -83,13 +83,11 @@ export function playDriver(res$) {
     complete: _ => _
   });
 
-
   result.getState = () => {
     return stream$;
   };
-  result.setVolume = (value) => {
+  result.setVolume = value => {
     status.volume.gain.value = value / 100;
-
   };
 
   result.setFilterGain = ({ value, frequency }) => {
@@ -126,7 +124,7 @@ export function playDriver(res$) {
       }
     }
   };
-  result.play = (track) => {
+  result.play = track => {
     const newStatus = { track };
 
     const playParams = {
@@ -153,7 +151,9 @@ export function playDriver(res$) {
       }
     } else if (track && status.track.id !== track.id) {
       lastTime = 0;
-      const { volume, analyser, playPromise, filters } = changeTrack(playParams);
+      const { volume, analyser, playPromise, filters } = changeTrack(
+        playParams
+      );
       newStatus.playing = true;
       newStatus.paused = false;
       newStatus.volume = volume;
@@ -185,7 +185,7 @@ export function playDriver(res$) {
     statusProvider.updateStatus(newStatus);
   };
 
-  result.updateDuration = (duration) => {
+  result.updateDuration = duration => {
     statusProvider.updateStatus({ duration });
   };
 
