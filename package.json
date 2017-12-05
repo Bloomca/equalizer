@@ -4,6 +4,7 @@
   "description": "simple player with equalizer",
   "main": "build/index.html",
   "scripts": {
+    "start": "node server.js",
     "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

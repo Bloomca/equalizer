@@ -1,6 +1,6 @@
 const WebpackDevServer = require("webpack-dev-server");
 const webpack = require("webpack");
-const config = require('./webpack.config.js')({ dev: true });
+const config = require("./webpack.config.js")({ dev: true });
 
 const compiler = webpack(config);
 const server = new WebpackDevServer(compiler, {
@@ -31,8 +31,7 @@ const server = new WebpackDevServer(compiler, {
   // },
 
   // pass [static options](http://expressjs.com/en/4x/api.html#express.static) to inner express server
-  staticOptions: {
-  },
+  staticOptions: {},
 
   // webpack-dev-middleware options
   // quiet: false,
