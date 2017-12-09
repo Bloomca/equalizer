@@ -1,20 +1,29 @@
 # Equalizer in js
 
-It is proof of concept application written in [cycle.js](http://cycle.js.org/), basically I was interested in playing with Web Audio API and getting to know streams better. I am not an expert in cycle.js, I just wanted to explore this interesting framework and to build something working and not so artificially sandbox. I used latest (at the moment) version of cycle.js with [xstreams](https://github.com/staltz/xstream) under the hood.
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-So this project is web audio player with equalizer (which uses [BiquadFilter](https://developer.mozilla.org/en/docs/Web/API/BiquadFilterNode)), which is built with [lowshelf/highshelf](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) filters at the ends and with [peaking](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) filters in between. You can watch spectrogram during the play; it is better to use latest Chrome, but in Firefox and Safari it should work too. Also I have to admit that due to low quality (I think it is 128 kbits per second) edge filters are not very important, but filters around 4–6 kHz are pretty noticeable, both in sound and spectrogram.
+[http://bloomca.github.io/equalizer/](http://bloomca.github.io/equalizer/)
 
-I get tracks from SoundCloud, which are searched by query and filtered by [CC BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode) license, and then I just stream them through [WebAudioApi](https://developer.mozilla.org/en/docs/Web/API/HTMLMediaElement).
-Currently player supports playlists, which means that it remember list from which you took your playing track and will continue to play next one.
+Audioplayer with equalizer, streaming music from SoundCloud. Equalizer uses [BiquadFilter](https://developer.mozilla.org/en/docs/Web/API/BiquadFilterNode)) – I use lowshelf/highshelf for filtering at the ends of the range, and peaking type filters in between. You can read about all available types in the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type).
 
-# TODO
+![Screenshot](https://raw.githubusercontent.com/cyclejs-community/built-with-cycle/master/data/images/equalizer.png)
 
-- add tests (it was created like proof of concept without deep knowing of )
-- add responsive support
-- refactor to [MVI](http://cycle.js.org/model-view-intent.html) concept
-- performance issues; think about playDriver
-- add filters to search
-- add router and ability to explore content more broadly
+## Technologies
+
+- [cycle.js](http://cycle.js.org/)
+- [xstreams](https://github.com/staltz/xstream)
+- [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+- [webpack](https://webpack.js.org/)
+
+Tracks from SoundCloud are filtered by [CC BY-SA license](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+
+## Run
+
+```shell
+npm install
+npm start # start a development server
+npm build # build a production code
+```
 
 # License
 
