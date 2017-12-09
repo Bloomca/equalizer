@@ -6,8 +6,7 @@ import { div, button, input, h3, img, p, a } from "@cycle/dom";
 import { formatDuration } from "../../utils/dates";
 
 // style declaration
-import styles from "./style.css.json";
-import "./style.css";
+import styles from "./style.sass";
 
 export default function Controls(sources) {
   const play$ = sources.DOM.select(".play").events("click");

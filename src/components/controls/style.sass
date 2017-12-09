@@ -1,0 +1,97 @@
+.noContent
+  text-align: center
+  margin: 25px
+
+
+.container
+  position: relative
+  margin-top: 30px
+  margin-bottom: 25px
+
+
+.firstRow
+  display: flex
+  position: relative
+  z-index: 1
+
+
+.background
+  position: absolute
+  width: calc(100% - 150px)
+  height: 150px
+  left: 150px
+  background-size: cover
+  z-index: 0
+
+
+.logoContainer
+  flex: 0 0 150px
+
+
+.logo
+  width: 100%
+  display: block
+
+
+.infoContainer
+  padding: 0 15px
+
+
+.title
+  margin-top: 10px
+  font-size: 26px
+
+
+.itemLink
+  font-size: 12px
+  margin-left: 30px
+
+
+.description
+
+
+.buttonsContainer
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-top: 10px
+  margin-bottom: 5px
+
+
+.volumeContainer
+  display: flex
+
+
+.volumeTitle
+  margin-right: 10px
+
+
+.volume
+  width: 250px
+
+
+.progressContainer
+  position: relative
+  height: 10px
+  cursor: pointer
+
+
+.progress,
+.progressGray
+  background: #2196f3
+  height: 3px
+  position: absolute
+  left: 0
+  bottom: 0
+  transition: height 0.3s
+
+
+.progressGray
+  background: rgba(210, 210, 210, 0.5)
+  width: 100%
+
+
+.progressContainer:hover .progress,
+.progressContainer:hover .progressGray
+  height: 10px
+

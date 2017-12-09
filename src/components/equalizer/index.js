@@ -6,8 +6,7 @@ import { div, input } from "@cycle/dom";
 import { formatFrequency } from "../../utils/frequencies";
 
 // style declaration
-import styles from "./style.css.json";
-import "./style.css";
+import styles from "./style.sass";
 
 export default function(sources) {
   const streams$ = sources.player$.map(player => {

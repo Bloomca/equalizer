@@ -8,8 +8,7 @@ import Spectrogram from "../spectrogram";
 import Equalizer from "../equalizer";
 
 // style declaration
-import styles from "./style.css.json";
-import "./style.css";
+import styles from "./style.sass";
 
 export default function Tabs(sources) {
   const eq$ = sources.DOM.select(".tab-eq").events("click");

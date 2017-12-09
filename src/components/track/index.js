@@ -5,8 +5,7 @@ import { div, label, input, hr, h4, button, p } from "@cycle/dom";
 import { formatDuration } from "../../utils/dates";
 
 // style declaration
-import styles from "./style.css.json";
-import "./style.css";
+import styles from "./style.sass";
 
 export default function Track(sources) {
   const streams$ = xs.of(sources.track).map(track => {

@@ -15,7 +15,7 @@ import Controls from "./components/controls";
 import Slider from "./components/slider";
 
 // style declaration
-import "./common.css";
+import "./common.sass";
 
 function main(sources) {
   const mouseMove$ = sources.DOM.select(".root").events("mousemove");

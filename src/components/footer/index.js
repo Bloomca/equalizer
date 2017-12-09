@@ -3,8 +3,7 @@ import xs from "xstream";
 import { footer, div, a } from "@cycle/dom";
 
 // style declaration
-import styles from "./style.css.json";
-import "./style.css";
+import styles from "./style.sass";
 
 export default function Footer() {
   const vtree$ = xs

@@ -25,8 +25,18 @@ module.exports = ({ dev }) => {
   ];
 
   const cssLoader = dev
-    ? "style-loader!css-loader!postcss-loader"
-    : ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader");
+    ? [
+        "style-loader",
+        "css-loader",
+        {
+          loader: "postcss-loader",
+          options: { plugins: [autoprefixer] }
+        }
+      ]
+    : ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: "css-loader!postcss-loader"
+      });
   return {
     // we have to require babel-polyfill first
     // https://babeljs.io/docs/usage/polyfill/
@@ -40,21 +50,27 @@ module.exports = ({ dev }) => {
       filename: "client.js"
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
-          loader: "babel"
+          use: ["babel-loader"]
         },
         {
           test: /\.css$/,
-          loader: cssLoader
+          use: cssLoader
         },
         {
           test: /\.sass$/,
-          loader: [
+          use: [
             "style-loader",
-            "css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]",
+            {
+              loader: "css-loader",
+              options: {
+                modules: true,
+                localIdentName: `[name]__[local]___[hash:base64:5]`
+              }
+            },
             {
               loader: "sass-loader",
               options: {
@@ -62,19 +78,9 @@ module.exports = ({ dev }) => {
               }
             }
           ]
-        },
-        {
-          test: /\.json$/,
-          loader: "json"
         }
       ]
     },
-    plugins: dev ? devPlugins : buildPlugins,
-    postcss: [
-      autoprefixer,
-      require("postcss-modules")({
-        generateScopedName: "[name]__[local]___[hash:base64:4]"
-      })
-    ]
+    plugins: dev ? devPlugins : buildPlugins
   };
 };

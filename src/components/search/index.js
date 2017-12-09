@@ -1,6 +1,5 @@
 import { div, label, input, hr, h1, form, button } from "@cycle/dom";
-import "./style.css";
-import styles from "./style.css.json";
+import styles from "./style.sass";
 
 export default function Search(sources) {
   const domSource = sources.DOM;

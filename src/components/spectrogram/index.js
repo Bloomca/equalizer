@@ -3,8 +3,7 @@ import xs from "xstream";
 import { canvas } from "@cycle/dom";
 
 // style declaration
-import styles from "./style.css.json";
-import "./style.css";
+import styles from "./style.sass";
 
 export default function Spectrogram(sources) {
   const canvas$ = sources.DOM.select(`.${styles.spectrogram}`).elements();
