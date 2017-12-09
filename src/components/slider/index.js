@@ -1,17 +1,17 @@
 import { div } from "@cycle/dom";
 
 export default function Slider(sources) {
+  const bodyElement = sources.DOM.select("body");
+  const mousemove$ = bodyElement.events("mousemove");
+  const mouseup$ = bodyElement.events("mouseup");
+
   const dnd$ = sources.DOM.select(".cursor")
     .events("mousedown")
-    .map(x => {
-      const mousemove$ = sources.globalEvents.mouseMove$;
-      const mouseup$ = sources.globalEvents.mouseUp$;
-      return mousemove$.endWhen(mouseup$);
-    })
+    .map(() => mousemove$.endWhen(mouseup$))
     .flatten()
     .startWith(0);
 
-  const vtree$ = dnd$.map(x => {
+  const vtree$ = dnd$.map(() => {
     return div(".slider", [div(".cursor", ["!!!!!!!!!!!!!!!!!"])]);
   });
 

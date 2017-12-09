@@ -2,7 +2,8 @@ let duration = 0;
 let audio = null;
 let qValues = [];
 let filters = [];
-let filterValues = [500, 2500, 4500, 6500, 8500, 11000, 14000, 17000];
+// frequences to put equalizer sliders at
+let filterValues = [500, 1500, 2500, 4000, 6500, 8500, 12000, 16000];
 
 let endedId;
 

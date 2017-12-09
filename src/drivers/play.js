@@ -37,7 +37,7 @@ export function playDriver(res$) {
         case "frequency":
           result.setFilterGain({ value, frequency });
           break;
-        case "seek":
+        case "seek": {
           const { clientX, currentTarget } = value;
           const { left, width } = currentTarget.getBoundingClientRect();
           const seekPercentage = (clientX - left) / width;
@@ -50,6 +50,7 @@ export function playDriver(res$) {
           startingMoment = Date.now();
           lastTime = seekValue * 1000;
           break;
+        }
         default:
           break;
       }
