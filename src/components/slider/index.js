@@ -1,7 +1,8 @@
-import {div} from '@cycle/dom';
+import { div } from "@cycle/dom";
 
 export default function Slider(sources) {
-  const dnd$ = sources.DOM.select('.cursor').events('mousedown')
+  const dnd$ = sources.DOM.select(".cursor")
+    .events("mousedown")
     .map(x => {
       const mousemove$ = sources.globalEvents.mouseMove$;
       const mouseup$ = sources.globalEvents.mouseUp$;
@@ -11,11 +12,7 @@ export default function Slider(sources) {
     .startWith(0);
 
   const vtree$ = dnd$.map(x => {
-    return div('.slider', [
-      div('.cursor', [
-        '!!!!!!!!!!!!!!!!!'
-      ])
-    ]);
+    return div(".slider", [div(".cursor", ["!!!!!!!!!!!!!!!!!"])]);
   });
 
   const sinks = {

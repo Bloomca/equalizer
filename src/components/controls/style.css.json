@@ -1,1 +1,19 @@
-{"noContent":"style__noContent___uaGh","container":"style__container___3oA_","firstRow":"style__firstRow___dOoD","background":"style__background___2XH6","logoContainer":"style__logoContainer___3YdB","logo":"style__logo___12m1","infoContainer":"style__infoContainer___Eou2","title":"style__title___3ECO","itemLink":"style__itemLink___1Xwo","description":"style__description___1j4H","buttonsContainer":"style__buttonsContainer___1yjs","volumeContainer":"style__volumeContainer___2fU9","volumeTitle":"style__volumeTitle___oHOO","volume":"style__volume___lHAt","progressContainer":"style__progressContainer___2s7O","progress":"style__progress___3r1a","progressGray":"style__progressGray___3hfV"}
+{
+  "noContent": "style__noContent___uaGh",
+  "container": "style__container___3oA_",
+  "firstRow": "style__firstRow___dOoD",
+  "background": "style__background___2XH6",
+  "logoContainer": "style__logoContainer___3YdB",
+  "logo": "style__logo___12m1",
+  "infoContainer": "style__infoContainer___Eou2",
+  "title": "style__title___3ECO",
+  "itemLink": "style__itemLink___1Xwo",
+  "description": "style__description___1j4H",
+  "buttonsContainer": "style__buttonsContainer___1yjs",
+  "volumeContainer": "style__volumeContainer___2fU9",
+  "volumeTitle": "style__volumeTitle___oHOO",
+  "volume": "style__volume___lHAt",
+  "progressContainer": "style__progressContainer___2s7O",
+  "progress": "style__progress___3r1a",
+  "progressGray": "style__progressGray___3hfV"
+}

@@ -1,4 +1,4 @@
-export const formatFrequency = (frequency) => {
+export const formatFrequency = frequency => {
   if (frequency < 1000) {
     return `${frequency} Hz`;
   }

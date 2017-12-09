@@ -6,6 +6,7 @@
   align-items: center;
 }
 
-.container:hover, .container.active {
-  color: #2196F3;
+.container:hover,
+.container.active {
+  color: #2196f3;
 }

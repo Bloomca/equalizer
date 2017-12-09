@@ -1,1 +1,9 @@
-{"tabsContainer":"style__tabsContainer___FHb2","tabs":"style__tabs___37jd","tab":"style__tab___20Oa","dataContainer":"style__dataContainer___BbCt","spectrogramContainer":"style__spectrogramContainer___2qPZ","spectrogramInnerContainer":"style__spectrogramInnerContainer___QAhY","equalizerContainer":"style__equalizerContainer___3_cH"}
+{
+  "tabsContainer": "style__tabsContainer___FHb2",
+  "tabs": "style__tabs___37jd",
+  "tab": "style__tab___20Oa",
+  "dataContainer": "style__dataContainer___BbCt",
+  "spectrogramContainer": "style__spectrogramContainer___2qPZ",
+  "spectrogramInnerContainer": "style__spectrogramInnerContainer___QAhY",
+  "equalizerContainer": "style__equalizerContainer___3_cH"
+}

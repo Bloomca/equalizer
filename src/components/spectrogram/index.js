@@ -1,10 +1,10 @@
 // cycle declaration
-import xs from 'xstream';
-import { canvas } from '@cycle/dom';
+import xs from "xstream";
+import { canvas } from "@cycle/dom";
 
 // style declaration
-import styles from './style.css.json';
-import './style.css';
+import styles from "./style.css.json";
+import "./style.css";
 
 export default function Spectrogram(sources) {
   const canvas$ = sources.DOM.select(`.${styles.spectrogram}`).elements();
@@ -14,7 +14,7 @@ export default function Spectrogram(sources) {
     next: ([canvasArray, state]) => {
       if (canvasArray && canvasArray.length > 0) {
         const canvas = canvasArray[0];
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         const width = canvas.width;
         const height = canvas.height;
 
@@ -38,12 +38,13 @@ export default function Spectrogram(sources) {
     complete: _ => _
   });
 
-  const vtree$ = xs.of(1)
-    .map(() => {
-      return canvas(`.${styles.spectrogram}`, { attrs: { width: '800', height: '400' } }, [
-        'sorry, your browser doesn\'t support canvas'
-      ]);
-    });
+  const vtree$ = xs.of(1).map(() => {
+    return canvas(
+      `.${styles.spectrogram}`,
+      { attrs: { width: "800", height: "400" } },
+      ["sorry, your browser doesn't support canvas"]
+    );
+  });
 
   const sinks = {
     DOM: vtree$

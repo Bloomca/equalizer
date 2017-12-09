@@ -7,6 +7,6 @@ export const formatDuration = (initialSecs, maxSecs) => {
 
   const stringMins = lastMins > 9 ? lastMins : `0${lastMins}`;
   const stringSecs = lastSecs > 9 ? lastSecs : `0${lastSecs}`;
-  const hoursPrefix = hours > 0 ? `${hours}:` : '';
+  const hoursPrefix = hours > 0 ? `${hours}:` : "";
   return `${hoursPrefix}${stringMins}:${stringSecs}`;
 };

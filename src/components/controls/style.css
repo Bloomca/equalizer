@@ -48,7 +48,6 @@
 }
 
 .description {
-
 }
 
 .buttonsContainer {
@@ -77,8 +76,9 @@
   cursor: pointer;
 }
 
-.progress, .progressGray {
-  background: #2196F3;
+.progress,
+.progressGray {
+  background: #2196f3;
   height: 3px;
   position: absolute;
   left: 0;
@@ -91,6 +91,7 @@
   width: 100%;
 }
 
-.progressContainer:hover .progress, .progressContainer:hover .progressGray {
+.progressContainer:hover .progress,
+.progressContainer:hover .progressGray {
   height: 10px;
 }
