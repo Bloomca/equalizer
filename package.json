@@ -7,6 +7,8 @@
     "start": "node server.js",
     "build": "node build.js",
     "precommit": "lint-staged",
+    "deploy":
+      "rm -rf dist/.git && npm run build && cd dist && git init && git add . && git commit -m \"Initial commit\" && git remote add origin git@github.com:Bloomca/equalizer.git && git push --force origin master:gh-pages",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Seva Zaikov",
